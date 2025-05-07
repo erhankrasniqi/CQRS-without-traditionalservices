@@ -29,13 +29,11 @@ Called from handlers/entities	Called from controllers/handlers
 
 Instead of having a shared EmailService, treat it as a technical service in the infrastructure layer and inject it directly where it's needed:
 
- 
-public interface IEmailSender {
-    Task SendAsync(string to, string subject, string body);
-}
 
- 
-public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand> {
+public interface IEmailSender { Task SendAsync(string to, string subject, string body); }
+
+public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand> 
+{
     private readonly IEmailSender _emailSender;
 
     public async Task Handle(RegisterUserCommand command) {
@@ -43,6 +41,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand> {
         await _emailSender.SendAsync(command.Email, "Welcome!", "Thank you for registering.");
     }
 }
+
+
 ✅ This follows SRP, separates concerns, and improves modularity and testability.
 
 📎 See the full example on GitHub 👉  https://github.com/erhankrasniqi/CQRS-without-traditionalservices
